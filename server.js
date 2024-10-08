@@ -13,14 +13,6 @@ app.use(bodyParser.json());
 // Enable CORS
 app.use(cors()); // Use cors middleware
 
-// Enforce HTTPS (check if the original request was HTTPS using X-Forwarded-Proto header)
-app.use((req, res, next) => {
-  if (req.headers['x-forwarded-proto'] !== 'https') {
-    return res.redirect(`https://${req.headers.host}${req.url}`);
-  }
-  next();
-});
-
 // MongoDB connection
 mongoose.connect(dbConfig.mongoURI, {
   useNewUrlParser: true,
