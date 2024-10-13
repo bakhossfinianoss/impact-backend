@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors'); // Import cors
+const rateLimit = require('express-rate-limit'); // Import rate-limit
 const routes = require('./routes/auth');
 const dbConfig = require('./config/db');
 
@@ -10,8 +11,21 @@ const app = express();
 // Body parser middleware
 app.use(bodyParser.json());
 
-// Enable CORS
-app.use(cors()); // Use cors middleware
+app.use(cors({
+  origin: ['https://impactco.ca'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+  credentials: true, 
+}));
+
+// Adjusted Rate Limiting Middleware for a basic website
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 15, // Limit each IP to 50 requests per windowMs (suitable for a basic website)
+  message: 'Too many requests, please try again later.', // Custom message when rate limit exceeded
+});
+
+// Apply rate limiting to all API routes
+app.use('/api', limiter);
 
 // MongoDB connection
 mongoose.connect(dbConfig.mongoURI, {
