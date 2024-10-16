@@ -17,10 +17,12 @@ app.use(cors({
   credentials: true,
 }));
 
+app.set('trust proxy', 1);
+
 // Adjusted Rate Limiting Middleware for a basic website
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 15, // Limit each IP to 50 requests per windowMs (suitable for a basic website)
+  max: 3, 
   message: 'Too many requests, please try again later.', // Custom message when rate limit exceeded
 });
 
