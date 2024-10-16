@@ -12,9 +12,9 @@ const app = express();
 app.use(bodyParser.json());
 
 app.use(cors({
-  origin: ['https://impactco.ca'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], 
-  credentials: true, 
+  origin: ['https://impactco.ca', 'https://www.impactco.ca'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
 }));
 
 // Adjusted Rate Limiting Middleware for a basic website
